@@ -19,14 +19,6 @@
       
       <span id="today-date"></span>
     </div>
-
-    <div class="button-group">
-      <button onclick="addRow()">➕ </button>
-      <button onclick="showSummary()">📋 </button>
-      <button onclick="showIndividualSummary()">👤 </button>
-      <button onclick="downloadPDF()">📥 </button>
-      <button onclick="clearAllData()">🗑️ </button>
-    </div>
     <hr>
     <table id="only-table">
       <colgroup>
@@ -67,14 +59,18 @@
         </tr>
       </tfoot>
     </table>
-    <button onclick="addRow()">➕ </button>
-    <button onclick="showProfitSummary()">💰 สรุปยอดกำไร</button>
-
+    <div class="button-group">
+      <button onclick="addRow()">➕ </button>
+      <button onclick="showProfitSummary()">💰</button>
+      <button onclick="showSummary()">📋 </button>
+      <button onclick="showIndividualSummary()">👤 </button>
+      <button onclick="downloadPDF()">📥 </button>
+      <button onclick="clearAllData()">🗑️ </button>
+    </div>
     <hr>
-
     <div class="table-controls">
-      <select id="tableSelector"></select>
-      <input type="text" id="newTableName" placeholder="ชื่อชุดใหม่ เช่น ติ๊ก+ยุพิน">
+      <input type="text" id="newTableName" placeholder="ชื่อชุดใหม่ เช่น ติ๊ก+ยุพิน" style="width: 70px;">
+      <select id="tableSelector" style="width: 120px; height: 27px;"></select>
       <button onclick="createNewTable()">➕++</button>
       <button onclick="deleteCurrentTable()">🗑️++ </button>
     </div>
