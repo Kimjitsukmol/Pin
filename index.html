@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บันทึกยอดซื้อ</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <div class="container" id="pdf-content">
+    <div class="header">
+      <h2 style="margin: 0; font-size: 20px; color: #1f2937;">
+         <span id="tableTitle">...</span>
+      </h2>
+      
+      <span id="today-date"></span>
+    </div>
+
+    <div class="button-group">
+      <button onclick="addRow()">➕ </button>
+      <button onclick="showSummary()">📋 </button>
+      <button onclick="showIndividualSummary()">👤 </button>
+      <button onclick="downloadPDF()">📥 </button>
+      <button onclick="clearAllData()">🗑️ </button>
+    </div>
+    <hr>
+    <table id="only-table">
+      <colgroup>
+        <col style="width: 3%">
+        <col style="width: 9%">
+        <col style="width: 7%">
+        <col style="width: 10%">
+        <col style="width: 8%">
+        <col style="width: 6%">
+        <col style="width: 6%">
+        <col style="width: 6%">
+        <col style="width: 6%">
+        <col style="width: 6%">
+        <col style="width: 6%">
+        <col style="width: 6%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th colspan="2">ชื่อ</th>
+          <th>เลข</th>
+          <th>ยอดซื้อ</th>
+          <th>ยอดวิ่ง</th>
+          <th>2 ตัว</th>
+          <th>3 ตรง</th>
+          <th>3 โต๊ด</th>
+          <th>3 ล่าง</th>
+          <th>วิ่งบน</th>
+          <th>วิ่งล่าง</th>
+          <th>2ครึ่ง</th>
+        </tr>
+      </thead>
+      <tbody id="dataBody">
+        <!-- dynamic rows -->
+      </tbody>
+      <tfoot>
+        <tr id="sumRow">
+          <td colspan="2" style="font-weight: bold;">รวมยอด</td>
+        </tr>
+      </tfoot>
+    </table>
+    <button onclick="addRow()">➕ </button>
+    <button onclick="showProfitSummary()">💰 สรุปยอดกำไร</button>
+
+    <hr>
+
+    <div class="table-controls">
+      <select id="tableSelector"></select>
+      <input type="text" id="newTableName" placeholder="ชื่อชุดใหม่ เช่น ติ๊ก+ยุพิน">
+      <button onclick="createNewTable()">➕++</button>
+      <button onclick="deleteCurrentTable()">🗑️++ </button>
+    </div>
+  </div>
+
+  <!-- Modal popup -->
+  <div id="summaryModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeSummary()">&times;</span>
+      <div id="summaryContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+
+</html>
