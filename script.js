@@ -68,7 +68,7 @@ function addRow() {
       if (input) input.placeholder = "";
     }
     lastPlaceholderRow = null;
-  }, 15000);
+  }, 30000);
 }
 
 
