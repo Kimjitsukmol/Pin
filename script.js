@@ -48,9 +48,28 @@ function addRow() {
         input.placeholder = placeholders[i - 2];
       }
 
+      // 💡 คำนวณรวมเมื่อเปลี่ยนค่า
       input.addEventListener("input", () => {
         sumColumns();
         saveToLocalStorage();
+      });
+
+      // 💡 เพิ่มแถวใหม่เมื่อกด Enter
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          addRow();
+
+          // โฟกัสช่องชื่อในแถวใหม่
+          setTimeout(() => {
+            const tbody = document.getElementById("dataBody");
+            const lastRow = tbody.rows[tbody.rows.length - 1];
+            if (lastRow && lastRow.cells[1]) {
+              const input = lastRow.cells[1].querySelector("input");
+              if (input) input.focus();
+            }
+          }, 10);
+        }
       });
 
       cell.appendChild(input);
