@@ -411,9 +411,9 @@ function clearAllData() {
 }
 function showTodayDate() {
   const today = new Date();
-  const options = { day: '2-digit', month: 'long', year: 'numeric' };
+  const options = { day: '2-digit', month: 'short', year: '2-digit' };
   const formatted = today.toLocaleDateString('th-TH', options);
-  document.getElementById('today-date').textContent = `🗓️ ${formatted}🗓️`;
+  document.getElementById('today-date').textContent = `🗓️ ${formatted}`;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
