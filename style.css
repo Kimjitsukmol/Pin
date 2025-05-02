@@ -249,3 +249,12 @@ table input[type="number"] {
   box-shadow: none !important;
   font-size: 10px !important;
 }
+
+#mainMenuButton {
+  font-weight: bold;
+  background-color: #34d399;
+}
+#mainMenuButton:hover {
+  background-color: #059669;
+  color: white;
+}

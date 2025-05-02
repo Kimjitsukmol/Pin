@@ -180,9 +180,11 @@ function showSummaryForTable(tableName) {
   `;
 
   let summaryHTML = selectorHTML + `
-    <button onclick="shareSummary()">📤 แชร์</button>
-    <h3>📌 สรุปยอดซื้อ</h3>
-  `;
+  <button onclick="shareSummary()">📤 แชร์</button>
+  <div style="margin-top: 8px; font-weight: bold;">👤: <span style="color: #1e40af;">${tableName}</span></div>
+  <h3>📌 สรุปยอดซื้อ</h3>
+`;
+
 
   if (sumBuy > 0) summaryHTML += `ยอดซื้อทั้งหมด: ${sumBuy.toLocaleString()} - ${discount}% = <strong>${buyNet.toLocaleString()} บาท</strong><br>`;
   if (sumRun > 0) summaryHTML += `ยอดวิ่งทั้งหมด: ${sumRun.toLocaleString()} - 10% = <strong>${runNet.toLocaleString()} บาท</strong><br>`;
@@ -411,7 +413,7 @@ function showTodayDate() {
   const today = new Date();
   const options = { day: '2-digit', month: 'long', year: 'numeric' };
   const formatted = today.toLocaleDateString('th-TH', options);
-  document.getElementById('today-date').textContent = `วันที่ ${formatted}`;
+  document.getElementById('today-date').textContent = `🗓️ ${formatted}🗓️`;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -419,14 +421,17 @@ document.addEventListener("DOMContentLoaded", () => {
   if (savedTables.length === 0) {
     // ถ้ายังไม่มีข้อมูลเลย ให้สร้างชุดเริ่มต้น
     localStorage.setItem("tableList", JSON.stringify(["น้ำหอม+ยุพิน"]));
-    updateTableTitle();
-
+    updateTableTitle();      
   }
 
   // โหลดชื่อชุดล่าสุด
   currentTableName = savedTables.includes(currentTableName) ? currentTableName : savedTables[0];
   loadTable(currentTableName);
   showTodayDate();
+  document.getElementById("mainMenuButton").addEventListener("click", () => {
+    const panel = document.getElementById("menuPanel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+  });
 });
 
 

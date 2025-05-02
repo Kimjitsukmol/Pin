@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>บันทึกยอดซื้อ</title>
+  <title>ยอดซื้อ</title>
   <link rel="stylesheet" href="style.css">
 
 </head>
@@ -59,19 +59,23 @@
         </tr>
       </tfoot>
     </table>
-    <div class="button-group">
-      <button onclick="addRow()">➕ </button>
-      <button onclick="showProfitSummary()">💰</button>
-      <button onclick="showSummary()">📋 </button>
-      <button onclick="showIndividualSummary()">👤 </button>
-      <button onclick="downloadPDF()">📥 </button>
-      <button onclick="clearAllData()">🗑️ </button>
-    </div>
+    <button id="mainMenuButton">🏠เมนู</button>
+
+<!-- ซ่อนทุกปุ่มและ input ไว้ใน div นี้ -->
+<div id="menuPanel" style="display: none;">
+  <div class="button-group">
+    <button onclick="addRow()">➕➕ </button>
+    <button onclick="showProfitSummary()">💰</button>
+    <button onclick="showSummary()">💸💸 </button>
+    <button onclick="showIndividualSummary()">👤👤 </button>
+    <button onclick="downloadPDF()">📩 </button>
+    <button onclick="clearAllData()">🗑️ </button>
+  </div>
     <hr>
     <div class="table-controls">
-      <input type="text" id="newTableName" placeholder="ชื่อชุดใหม่ เช่น ติ๊ก+ยุพิน" style="width: 70px;">
+      <input type="text" id="newTableName" placeholder="ชื่อ" style="width: 70px;">
       <select id="tableSelector" style="width: 120px; height: 27px;"></select>
-      <button onclick="createNewTable()">➕++</button>
+      <button onclick="createNewTable()">🔎++</button>
       <button onclick="deleteCurrentTable()">🗑️++ </button>
     </div>
   </div>
