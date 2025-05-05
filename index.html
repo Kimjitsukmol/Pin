@@ -61,17 +61,22 @@
         </tr>
       </tfoot>
     </table>
+    <button onclick="addRow()">➕➕ </button>
     <button id="mainMenuButton">🏠เมนู</button>
 
 <!-- ซ่อนทุกปุ่มและ input ไว้ใน div นี้ -->
 <div id="menuPanel" style="display: none;">
   <div class="button-group">
-    <button onclick="addRow()">➕➕ </button>
     <button onclick="showProfitSummary()">💰</button>
     <button onclick="showSummary()">💸💸 </button>
     <button onclick="showIndividualSummary()">👤👤 </button>
     <button onclick="downloadPDF()">📩 </button>
     <button onclick="clearAllData()">🗑️ </button>
+    <div style="margin-top: 10px;">
+  <input type="number" id="rowToDelete" placeholder="ลบแถวที่..." style="width: 80px;">
+  <button onclick="deleteSpecificRow()">🗑️ ลบแถว</button>
+</div>
+
   </div>
     <hr>
     <div class="table-controls">
