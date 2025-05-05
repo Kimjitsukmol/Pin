@@ -612,6 +612,27 @@ function showProfitSummary() {
     document.getElementById("summaryContent").innerHTML = resultHTML;
   };
 }
+function deleteSpecificRow() {
+  const rowNumber = parseInt(document.getElementById("rowToDelete").value);
+  const tbody = document.getElementById("dataBody");
+
+  if (isNaN(rowNumber) || rowNumber < 1 || rowNumber > tbody.rows.length) {
+    alert("กรุณาระบุหมายเลขแถวที่ถูกต้อง");
+    return;
+  }
+
+  tbody.deleteRow(rowNumber - 1); // index เริ่มที่ 0
+  rowCount--; // ลดจำนวนแถว
+  sumColumns(); // คำนวณใหม่
+  saveToLocalStorage(); // บันทึกใหม่
+
+  // อัปเดตลำดับแถว
+  for (let i = 0; i < tbody.rows.length; i++) {
+    tbody.rows[i].cells[0].textContent = i + 1;
+  }
+
+  document.getElementById("rowToDelete").value = "";
+}
 
 
 
