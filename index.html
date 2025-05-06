@@ -64,19 +64,31 @@
     <button onclick="addRow()">➕ </button>
     <button id="mainMenuButton">🏠เมนู</button>
 
+
 <!-- ซ่อนทุกปุ่มและ input ไว้ใน div นี้ -->
 <div id="menuPanel" style="display: none;">
   <div class="button-group">
     <button onclick="showProfitSummary()">💰</button>
     <button onclick="showSummary()">💸💸 </button>
     <button onclick="showIndividualSummary()">👤👤 </button>
-    <button onclick="downloadPDF()">📩 </button>
+    <!-- <button onclick="downloadPDF()">📩 </button> -->
     <button onclick="clearAllData()">🗑️ </button>
     <div style="margin-top: 10px;">
-  <input type="number" id="rowToDelete" placeholder="ลบแถวที่..." style="width: 80px;">
-  <button onclick="deleteSpecificRow()">🗑️ ลบแถว</button>
-</div>
-
+      <button onclick="showDeleteRowPopup()">🗑️ ลบแถว</button>
+    </div>
+    
+    <!-- เพิ่ม popup modal -->
+    <div id="deleteRowModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeDeleteRowPopup()">&times;</span>
+        <h3>ลบแถว</h3>
+        <!-- <p>แถวที่ต้องการลบ:</p> -->
+        <select id="deleteRowSelector" style="padding: 4px;"></select>
+        <button onclick="confirmDeleteRow()">❌</button>
+      </div>
+    </div>
+    
+    
   </div>
     <hr>
     <div class="table-controls">

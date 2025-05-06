@@ -5,7 +5,7 @@ let percentBelow5000 = 15;
 let percentAbove5000 = 20;
 let percentRun = 95;
 let customPercentages = {}; // กำหนดเปอร์เซ็นต์รายบุคคล
-let summaryDiscountPercent = 30; // ค่า default สำหรับการสรุปยอดรวม
+// let summaryDiscountPercent = 30; // ค่า default สำหรับการสรุปยอดรวม
 
 let lastPlaceholderRow = null;
 let lastPlaceholderTimeout = null;
@@ -40,19 +40,24 @@ function addRow() {
         input.type = "text";
         input.style.textAlign = "center";
         input.placeholder = "ชื่อ";
+      
+        // ✅ เพิ่มบันทึกเมื่อแก้ไขชื่อ
+        input.addEventListener("input", () => {
+          saveToLocalStorage();
+        });
       } else {
         input.type = "number";
         input.inputMode = "numeric";
         input.pattern = "[0-9]*";
         input.style.textAlign = "center";
         input.placeholder = placeholders[i - 2];
+      
+        input.addEventListener("input", () => {
+          sumColumns();
+          saveToLocalStorage();
+        });
       }
-
-      // 💡 คำนวณรวมเมื่อเปลี่ยนค่า
-      input.addEventListener("input", () => {
-        sumColumns();
-        saveToLocalStorage();
-      });
+      
 
       // 💡 เพิ่มแถวใหม่เมื่อกด Enter
       input.addEventListener("keydown", (event) => {
@@ -151,7 +156,11 @@ function showSummaryForTable(tableName) {
     tHalf += chalf;
   }
 
-  const discount = discountPerTable[tableName] ?? 30; // ถ้าไม่มี ใช้ 30%
+    let discount = discountPerTable[tableName];
+  if (discount === undefined) {
+    discount = tableName.includes("น้ำหอม + ยุพิน") ? 28 : 30;
+  }
+
   const buyNet = Math.round(sumBuy * (1 - discount / 100));
   const runNet = Math.round(sumRun * 0.90);
   const totalIn = buyNet + runNet;
@@ -290,7 +299,7 @@ function showIndividualSummary() {
       <button onclick="setCustomPercentage()">✅ กำหนดให้บุคคลนี้</button>
     </div>
     <button onclick="shareSummary()">📤 แชร์</button>
-    <h3>📋 สรุปรายบุคคล (รวมทุกชุด ${totalWorkSheets} ใบงาน)</h3>
+    <h3>📋 รวม (${totalWorkSheets} แผ่น)</h3>
   `;
 
   for (const name in summary) {
@@ -389,6 +398,9 @@ function addRowWithData(data) {
       input.value = data[i - 1] || "";
       if (i === 1) {
         input.type = "text";
+        input.addEventListener("input", () => {
+          saveToLocalStorage();
+        });
       } else {
         input.type = "number";
         input.addEventListener("input", () => {
@@ -396,6 +408,7 @@ function addRowWithData(data) {
           saveToLocalStorage();
         });
       }
+      
       cell.appendChild(input);
     }
   }
@@ -612,6 +625,77 @@ function showProfitSummary() {
     document.getElementById("summaryContent").innerHTML = resultHTML;
   };
 }
+
+document.querySelectorAll("input, textarea").forEach((element) => {
+  element.addEventListener("input", () => {
+    saveData(); // บันทึกทุกครั้งที่มีการพิมพ์
+  });
+});
+
+function saveData() {
+  const allInputs = document.querySelectorAll("input, textarea");
+  const formData = {};
+
+  allInputs.forEach((input) => {
+    formData[input.id] = input.value;
+  });
+
+  localStorage.setItem("formData", JSON.stringify(formData));
+}
+
+window.onload = () => {
+  const savedData = JSON.parse(localStorage.getItem("formData") || "{}");
+
+  for (const [id, value] of Object.entries(savedData)) {
+    const input = document.getElementById(id);
+    if (input) input.value = value;
+  }
+};
+
+function loadData() {
+  const savedData = JSON.parse(localStorage.getItem("formData") || "{}");
+  for (const [id, value] of Object.entries(savedData)) {
+    const input = document.getElementById(id);
+    if (input) input.value = value;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("input, textarea").forEach((el) => {
+    el.addEventListener("input", saveData);
+  });
+  loadData(); // โหลดค่าที่เคยบันทึกไว้
+});
+
+// โหลดข้อมูลจาก localStorage เมื่อเปิดหน้าเว็บ
+function loadData() {
+  const savedData = JSON.parse(localStorage.getItem("formData") || "{}");
+  for (const [id, value] of Object.entries(savedData)) {
+    const input = document.getElementById(id);
+    if (input) input.value = value;
+  }
+}
+
+// บันทึกข้อมูลทุก input/textarea เข้า localStorage
+function saveData() {
+  const allInputs = document.querySelectorAll("input, textarea");
+  const formData = {};
+  allInputs.forEach((input) => {
+    if (input.id) {
+      formData[input.id] = input.value;
+    }
+  });
+  localStorage.setItem("formData", JSON.stringify(formData));
+}
+
+// ติดตามการพิมพ์และโหลดข้อมูลเมื่อเปิดหน้า
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("input, textarea").forEach((el) => {
+    el.addEventListener("input", saveData); // auto-save
+  });
+  loadData(); // restore
+});
+
 function deleteSpecificRow() {
   const rowNumber = parseInt(document.getElementById("rowToDelete").value);
   const tbody = document.getElementById("dataBody");
@@ -634,6 +718,71 @@ function deleteSpecificRow() {
   document.getElementById("rowToDelete").value = "";
 }
 
+function showDeleteRowPopup() {
+  const tbody = document.getElementById("dataBody");
+  const selector = document.getElementById("deleteRowSelector");
+
+  selector.innerHTML = "";
+  for (let i = 0; i < tbody.rows.length; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = ` ${i + 1}`;
+    if (i === tbody.rows.length - 1) {
+      option.selected = true; // ✅ เลือกแถวสุดท้าย
+    }
+    selector.appendChild(option);
+  }
+  
+  if (tbody.rows.length > 0) {
+    selector.selectedIndex = tbody.rows.length - 1;
+  }
+  
+  refreshDeleteRowOptions();
+  document.getElementById("deleteRowModal").style.display = "block";
+}
+
+function closeDeleteRowPopup() {
+  document.getElementById("deleteRowModal").style.display = "none";
+}
+
+function confirmDeleteRow() {
+  const index = parseInt(document.getElementById("deleteRowSelector").value);
+  const tbody = document.getElementById("dataBody");
+
+  if (isNaN(index) || index < 0 || index >= tbody.rows.length) {
+    alert("ไม่พบแถวที่เลือก");
+    return;
+  }
+
+  tbody.deleteRow(index);
+  rowCount--;
+  sumColumns();
+  saveToLocalStorage();
+
+  // อัปเดตลำดับแถว
+  for (let i = 0; i < tbody.rows.length; i++) {
+    tbody.rows[i].cells[0].textContent = i + 1;
+  }
+
+  refreshDeleteRowOptions(); // ✅ รีโหลดรายการใหม่ โดยไม่ปิด popup
+}
 
 
+function refreshDeleteRowOptions() {
+  const tbody = document.getElementById("dataBody");
+  const selector = document.getElementById("deleteRowSelector");
+
+  selector.innerHTML = "";
+  for (let i = 0; i < tbody.rows.length; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = ` ${i + 1}`;
+    selector.appendChild(option);
+  }
+
+  if (tbody.rows.length > 0) {
+    selector.selectedIndex = tbody.rows.length - 1;
+    selector.focus();
+  }
+}
 
