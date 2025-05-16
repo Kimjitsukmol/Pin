@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedTables = JSON.parse(localStorage.getItem("tableList")) || [];
   if (savedTables.length === 0) {
     // ถ้ายังไม่มีข้อมูลเลย ให้สร้างชุดเริ่มต้น
-    localStorage.setItem("tableList", JSON.stringify(["น้ำหอม+ยุพิน"]));
+    localStorage.setItem("tableList", JSON.stringify(["น้ำหอม + ยุพิน", "ติ๊ก + ยุพิน"]));
     updateTableTitle();      
   }
 
