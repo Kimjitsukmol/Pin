@@ -92,7 +92,7 @@ function addRow() {
       if (input) input.placeholder = "";
     }
     lastPlaceholderRow = null;
-  }, 30000);
+  }, 50000);
 }
 
 
@@ -189,7 +189,6 @@ function showSummaryForTable(tableName) {
   `;
 
   let summaryHTML = selectorHTML + `
-  <button onclick="shareSummary()">📤 แชร์</button>
   <div style="margin-top: 8px; font-weight: bold;">👤: <span style="color: #1e40af;">${tableName}</span></div>
   <h3>📌 สรุปยอดซื้อ</h3>
 `;
@@ -298,7 +297,6 @@ function showIndividualSummary() {
       <label> ยอดซื้อ: <input type="number" id="customBuyPercent" style="width:40px">%</label>
       <button onclick="setCustomPercentage()">✅ กำหนดให้บุคคลนี้</button>
     </div>
-    <button onclick="shareSummary()">📤 แชร์</button>
     <h3>📋 รวม (${totalWorkSheets} แผ่น)</h3>
   `;
 
